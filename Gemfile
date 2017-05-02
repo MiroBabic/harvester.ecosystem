@@ -21,6 +21,9 @@ gem 'foreman'
 gem 'puma'
 gem 'newrelic_rpm'
 
+#active record import gem
+gem 'activerecord-import'
+
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
 
