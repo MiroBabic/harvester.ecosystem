@@ -3,7 +3,7 @@ class CreateRpvsPartners < ActiveRecord::Migration[5.0]
     execute 'CREATE SCHEMA rpvs'
 
     create_table 'rpvs.publicsectorpartners' do |t|
-      t.integer :partner_id,index: true, foreign_key: true
+      t.integer :partner_id, null: false
       t.integer :publicsectorpartner_id, null: false
       t.string :first_name
       t.string :family_name
@@ -28,9 +28,10 @@ class CreateRpvsPartners < ActiveRecord::Migration[5.0]
 
     add_index 'rpvs.publicsectorpartners', :publicsectorpartner_id, unique: true
     add_index 'rpvs.publicsectorpartners', :cin
+    add_index 'rpvs.publicsectorpartners', :partner_id
 
      create_table 'rpvs.endusers' do |t|
-      t.integer :partner_id,index: true, foreign_key: true
+      t.integer :partner_id, null: false
       t.integer :enduser_id, null: false
       t.string :first_name
       t.string :family_name
@@ -55,9 +56,10 @@ class CreateRpvsPartners < ActiveRecord::Migration[5.0]
 
     add_index 'rpvs.endusers', :enduser_id, unique: true
     add_index 'rpvs.endusers', :cin
+    add_index 'rpvs.endusers', :partner_id
     
 create_table 'rpvs.authorizedpersons' do |t|
-      t.integer :partner_id,index: true, foreign_key: true
+      t.integer :partner_id, null: false
       t.integer :authperson_id, null: false
       t.string :first_name
       t.string :family_name
@@ -82,10 +84,11 @@ create_table 'rpvs.authorizedpersons' do |t|
 
     add_index 'rpvs.authorizedpersons', :authperson_id, unique: true
     add_index 'rpvs.authorizedpersons', :cin
+    add_index 'rpvs.authorizedpersons', :partner_id
 
 
     create_table 'rpvs.partners' do |t|
-      t.integer :p_id, null: false
+      t.integer :partner_id, null: false
       t.integer :line, null: false
       t.integer :removal_id
       t.string :reason
@@ -95,7 +98,7 @@ create_table 'rpvs.authorizedpersons' do |t|
       t.timestamps
     end
 
-    add_index 'rpvs.partners', :p_id, unique: true
+    add_index 'rpvs.partners', :partner_id, unique: true
     add_index 'rpvs.partners', :line, unique: true
 
     

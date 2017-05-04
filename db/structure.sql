@@ -76,7 +76,7 @@ SET search_path = rpvs, pg_catalog;
 
 CREATE TABLE authorizedpersons (
     id integer NOT NULL,
-    partner_id integer,
+    partner_id integer NOT NULL,
     authperson_id integer NOT NULL,
     first_name character varying,
     family_name character varying,
@@ -125,7 +125,7 @@ ALTER SEQUENCE authorizedpersons_id_seq OWNED BY authorizedpersons.id;
 
 CREATE TABLE endusers (
     id integer NOT NULL,
-    partner_id integer,
+    partner_id integer NOT NULL,
     enduser_id integer NOT NULL,
     first_name character varying,
     family_name character varying,
@@ -174,7 +174,7 @@ ALTER SEQUENCE endusers_id_seq OWNED BY endusers.id;
 
 CREATE TABLE partners (
     id integer NOT NULL,
-    p_id integer NOT NULL,
+    partner_id integer NOT NULL,
     line integer NOT NULL,
     removal_id integer,
     reason character varying,
@@ -210,7 +210,7 @@ ALTER SEQUENCE partners_id_seq OWNED BY partners.id;
 
 CREATE TABLE publicsectorpartners (
     id integer NOT NULL,
-    partner_id integer,
+    partner_id integer NOT NULL,
     publicsectorpartner_id integer NOT NULL,
     first_name character varying,
     family_name character varying,
@@ -445,10 +445,10 @@ CREATE UNIQUE INDEX "index_rpvs.partners_on_line" ON partners USING btree (line)
 
 
 --
--- Name: index_rpvs.partners_on_p_id; Type: INDEX; Schema: rpvs; Owner: -
+-- Name: index_rpvs.partners_on_partner_id; Type: INDEX; Schema: rpvs; Owner: -
 --
 
-CREATE UNIQUE INDEX "index_rpvs.partners_on_p_id" ON partners USING btree (p_id);
+CREATE UNIQUE INDEX "index_rpvs.partners_on_partner_id" ON partners USING btree (partner_id);
 
 
 --

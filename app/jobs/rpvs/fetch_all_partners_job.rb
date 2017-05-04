@@ -28,7 +28,7 @@ class Rpvs::FetchAllPartnersJob < ApplicationJob
         removal_date = removal["Datum"]
       end
 
-      p = Rpvs::Partners.new(:p_id=>id, :line=>line, :removal_id => removal_id, :reason => reason, :note=> note, :removal_date => removal_date)
+      p = Rpvs::Partners.new(:partner_id=>id, :line=>line, :removal_id => removal_id, :reason => reason, :note=> note, :removal_date => removal_date)
 
      
 
@@ -57,7 +57,7 @@ class Rpvs::FetchAllPartnersJob < ApplicationJob
         removal_date = removal["Datum"]
       end
 
-      p = Rpvs::Partners.new(:p_id=>id, :line=>line, :removal_id => removal_id, :reason => reason, :note=> note, :removal_date => removal_date)
+      p = Rpvs::Partners.new(:partner_id=>id, :line=>line, :removal_id => removal_id, :reason => reason, :note=> note, :removal_date => removal_date)
 
 
      
@@ -70,7 +70,7 @@ class Rpvs::FetchAllPartnersJob < ApplicationJob
       
     end
 
-    Rpvs::Partners.import partnersArr, on_duplicate_key_update: {conflict_target: [:p_id], columns: [:line, :removal_id,:reason, :note,:removal_date]}
+    Rpvs::Partners.import partnersArr, on_duplicate_key_update: {conflict_target: [:partner_id], columns: [:line, :removal_id,:reason, :note,:removal_date]}
     
   
 
