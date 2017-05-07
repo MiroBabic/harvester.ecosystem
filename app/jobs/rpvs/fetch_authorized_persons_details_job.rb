@@ -13,15 +13,14 @@ class Rpvs::FetchAuthorizedPersonsDetailsJob < ApplicationJob
 
     link = String.new
 
-    open("https://rpvs.gov.sk/OpenData/OpravneneOsoby?%24expand=Partner%2CAdresa") do |url|
+    begin
 
-    if url.status[0] == "200"
+    open("https://rpvs.gov.sk/OpenData/OpravneneOsoby?%24expand=Partner%2CAdresa") do |url|
 
      jsondata = JSON.parse url.base_uri.read
 
       link = jsondata["@odata.nextLink"]
-    
-      
+            
       jsondata["value"].each do |data|
 
         auId = data["Id"]
@@ -52,20 +51,15 @@ class Rpvs::FetchAuthorizedPersonsDetailsJob < ApplicationJob
      end
 
      
-     else
-
-      puts "Error connecting to #{url.base_uri}"
-
-      end
+   
     end
 
 
     while link.present? do 
 
+      begin
 
       open(link) do |suburl|
-
-        if suburl.status[0]== "200"
 
       jsondataloop = JSON.parse suburl.base_uri.read
 
@@ -101,17 +95,21 @@ class Rpvs::FetchAuthorizedPersonsDetailsJob < ApplicationJob
      
       link = jsondataloop["@odata.nextLink"]
       
-    else
-      puts "Error connecting to #{suburl.base_uri}"
+     
+  end
+
+  rescue OpenURI::HTTPError => error
+      puts error.io.status
     end
 
-  
-  end
   end
 
   Rpvs::Authorizedpersons.import auArr, on_duplicate_key_update: {conflict_target: [:authperson_id], columns: [:first_name,:family_name,:birth_date,:title_front,:title_back,:business_name,:cin,:business_form,:valid_from,:valid_to,:address_street_name, :address_street_number, :address_reg_number, :address_city,:address_code,:address_psc,:address_identifikator]}
   end
 
+rescue OpenURI::HTTPError => error
+      puts error.io.status
+    end
 
 end
   

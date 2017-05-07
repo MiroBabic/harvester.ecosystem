@@ -13,9 +13,11 @@ class Rpvs::FetchPublicPartnersDetailsJob < ApplicationJob
 
     link = String.new
 
+    begin
+
     open("https://rpvs.gov.sk/OpenData/PartneriVerejnehoSektora?%24expand=Partner%2CAdresa") do |url|
 
-    if url.status[0] == "200"
+    
 
      jsondata = JSON.parse url.base_uri.read
 
@@ -51,21 +53,17 @@ class Rpvs::FetchPublicPartnersDetailsJob < ApplicationJob
     
      end
 
-     
-     else
-
-      puts "Error connecting to #{url.base_uri}"
-
-      end
+          
     end
 
 
     while link.present? do 
 
+      begin
 
       open(link) do |suburl|
 
-        if suburl.status[0]== "200"
+        
 
       jsondataloop = JSON.parse suburl.base_uri.read
 
@@ -101,15 +99,20 @@ class Rpvs::FetchPublicPartnersDetailsJob < ApplicationJob
      
       link = jsondataloop["@odata.nextLink"]
       
-    else
-      puts "Error connecting to #{suburl.base_uri}"
+  end
+
+  rescue OpenURI::HTTPError => error
+      puts error.io.status
     end
 
-  
-  end
   end
 
   Rpvs::Publicsectorpartners.import psArr, on_duplicate_key_update: {conflict_target: [:publicsectorpartner_id], columns: [:first_name,:family_name,:birth_date,:title_front,:title_back,:business_name,:cin,:business_form,:valid_from,:valid_to,:address_street_name, :address_street_number, :address_reg_number, :address_city,:address_code,:address_psc,:address_identifikator]}
+
+ end
+
+  rescue OpenURI::HTTPError => error
+      puts error.io.status
   end
 
 

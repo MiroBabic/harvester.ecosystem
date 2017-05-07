@@ -9,6 +9,8 @@ class Rpvs::FetchAllPartnersJob < ApplicationJob
 
   def perform
 
+    begin
+
     jsondata = JSON.parse open("https://rpvs.gov.sk/OpenData/Partneri?%24expand=Vymaz").read
     
     partnersArr = Array.new
@@ -37,9 +39,13 @@ class Rpvs::FetchAllPartnersJob < ApplicationJob
      end
 
     link = jsondata["@odata.nextLink"]
+    
 
     while link.present? do 
 
+      begin
+
+      
       jsondataloop = JSON.parse open(link).read
 
       jsondataloop["value"].each do |data|
@@ -67,12 +73,18 @@ class Rpvs::FetchAllPartnersJob < ApplicationJob
      end
      
       link = jsondataloop["@odata.nextLink"]
+
+    rescue OpenURI::HTTPError => error
+      puts error.io.status
+    end
       
     end
 
     Rpvs::Partners.import partnersArr, on_duplicate_key_update: {conflict_target: [:partner_id], columns: [:line, :removal_id,:reason, :note,:removal_date]}
     
-  
+    rescue OpenURI::HTTPError => error
+      puts error.io.status
+    end
 
   end
 
