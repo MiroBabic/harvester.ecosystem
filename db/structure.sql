@@ -205,6 +205,44 @@ ALTER SEQUENCE partners_id_seq OWNED BY partners.id;
 
 
 --
+-- Name: publicofficials; Type: TABLE; Schema: rpvs; Owner: -
+--
+
+CREATE TABLE publicofficials (
+    id integer NOT NULL,
+    partner_id integer NOT NULL,
+    publicofficial_id integer NOT NULL,
+    first_name character varying,
+    family_name character varying,
+    title_front character varying,
+    title_back character varying,
+    valid_from timestamp without time zone,
+    valid_to timestamp without time zone,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: publicofficials_id_seq; Type: SEQUENCE; Schema: rpvs; Owner: -
+--
+
+CREATE SEQUENCE publicofficials_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: publicofficials_id_seq; Type: SEQUENCE OWNED BY; Schema: rpvs; Owner: -
+--
+
+ALTER SEQUENCE publicofficials_id_seq OWNED BY publicofficials.id;
+
+
+--
 -- Name: publicsectorpartners; Type: TABLE; Schema: rpvs; Owner: -
 --
 
@@ -319,6 +357,13 @@ ALTER TABLE ONLY partners ALTER COLUMN id SET DEFAULT nextval('partners_id_seq':
 -- Name: id; Type: DEFAULT; Schema: rpvs; Owner: -
 --
 
+ALTER TABLE ONLY publicofficials ALTER COLUMN id SET DEFAULT nextval('publicofficials_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: rpvs; Owner: -
+--
+
 ALTER TABLE ONLY publicsectorpartners ALTER COLUMN id SET DEFAULT nextval('publicsectorpartners_id_seq'::regclass);
 
 
@@ -373,6 +418,14 @@ ALTER TABLE ONLY endusers
 
 ALTER TABLE ONLY partners
     ADD CONSTRAINT partners_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: publicofficials_pkey; Type: CONSTRAINT; Schema: rpvs; Owner: -
+--
+
+ALTER TABLE ONLY publicofficials
+    ADD CONSTRAINT publicofficials_pkey PRIMARY KEY (id);
 
 
 --
@@ -449,6 +502,20 @@ CREATE UNIQUE INDEX "index_rpvs.partners_on_line" ON partners USING btree (line)
 --
 
 CREATE UNIQUE INDEX "index_rpvs.partners_on_partner_id" ON partners USING btree (partner_id);
+
+
+--
+-- Name: index_rpvs.publicofficials_on_partner_id; Type: INDEX; Schema: rpvs; Owner: -
+--
+
+CREATE INDEX "index_rpvs.publicofficials_on_partner_id" ON publicofficials USING btree (partner_id);
+
+
+--
+-- Name: index_rpvs.publicofficials_on_publicofficial_id; Type: INDEX; Schema: rpvs; Owner: -
+--
+
+CREATE UNIQUE INDEX "index_rpvs.publicofficials_on_publicofficial_id" ON publicofficials USING btree (publicofficial_id);
 
 
 --

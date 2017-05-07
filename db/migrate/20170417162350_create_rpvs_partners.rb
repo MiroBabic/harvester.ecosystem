@@ -85,6 +85,23 @@ create_table 'rpvs.authorizedpersons' do |t|
     add_index 'rpvs.authorizedpersons', :authperson_id, unique: true
     add_index 'rpvs.authorizedpersons', :cin
     add_index 'rpvs.authorizedpersons', :partner_id
+    
+
+create_table 'rpvs.publicofficials' do |t|
+      t.integer :partner_id, null: false
+      t.integer :publicofficial_id, null: false
+      t.string :first_name
+      t.string :family_name
+      t.string :title_front
+      t.string :title_back
+      t.datetime :valid_from
+      t.datetime :valid_to
+      
+      t.timestamps
+    end
+
+    add_index 'rpvs.publicofficials', :publicofficial_id, unique: true
+    add_index 'rpvs.publicofficials', :partner_id
 
 
     create_table 'rpvs.partners' do |t|

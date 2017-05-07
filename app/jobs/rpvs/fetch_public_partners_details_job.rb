@@ -36,13 +36,13 @@ class Rpvs::FetchPublicPartnersDetailsJob < ApplicationJob
         psvalidfrom = data["PlatnostOd"]
         psvalidto = data["PlatnostDo"]
         partnerID = data["Partner"]["Id"]
-        addressStreetName = data["Adresa"]["MenoUlice"]
-        addressStreetNumber = data["Adresa"]["OrientacneCislo"]
-        addressRegNumber = data["Adresa"]["SupisneCislo"]
-        addressCity = data["Adresa"]["Mesto"]
-        addressCode = data["Adresa"]["MestoKod"]
-        addressPsc = data["Adresa"]["Psc"]
-        addressIdent = data["Adresa"]["Identifikator"]
+        addressStreetName = data["Adresa"]["MenoUlice"] unless data["Adresa"].nil?
+        addressStreetNumber = data["Adresa"]["OrientacneCislo"] unless data["Adresa"].nil?
+        addressRegNumber = data["Adresa"]["SupisneCislo"] unless data["Adresa"].nil?
+        addressCity = data["Adresa"]["Mesto"] unless data["Adresa"].nil?
+        addressCode = data["Adresa"]["MestoKod"] unless data["Adresa"].nil?
+        addressPsc = data["Adresa"]["Psc"] unless data["Adresa"].nil?
+        addressIdent = data["Adresa"]["Identifikator"] unless data["Adresa"].nil?
 
 
       @ps = Rpvs::Publicsectorpartners.new(:partner_id => partnerID, :publicsectorpartner_id => pspartnerId,:first_name=>psfirstname,:family_name=>pslastname,:birth_date=>psbirthdate,:title_front=>psfronttitle,:title_back=>psbacktitle,:business_name =>psbname,:cin=>psico,:business_form =>psbform,:valid_from => psvalidfrom,:valid_to => psvalidto, :address_street_name => addressStreetName, :address_street_number => addressStreetNumber, :address_reg_number => addressRegNumber,:address_city => addressCity, :address_code => addressCode, :address_psc => addressPsc, :address_identifikator => addressIdent)
@@ -58,9 +58,6 @@ class Rpvs::FetchPublicPartnersDetailsJob < ApplicationJob
 
       end
     end
-
-
-    puts "hello"
 
 
     while link.present? do 
@@ -86,13 +83,13 @@ class Rpvs::FetchPublicPartnersDetailsJob < ApplicationJob
         psvalidfrom = data["PlatnostOd"]
         psvalidto = data["PlatnostDo"]
         partnerID = data["Partner"]["Id"]
-        addressStreetName = data["Adresa"]["MenoUlice"]
-        addressStreetNumber = data["Adresa"]["OrientacneCislo"]
-        addressRegNumber = data["Adresa"]["SupisneCislo"]
-        addressCity = data["Adresa"]["Mesto"]
-        addressCode = data["Adresa"]["MestoKod"]
-        addressPsc = data["Adresa"]["Psc"]
-        addressIdent = data["Adresa"]["Identifikator"]
+        addressStreetName = data["Adresa"]["MenoUlice"] unless data["Adresa"].nil?
+        addressStreetNumber = data["Adresa"]["OrientacneCislo"] unless data["Adresa"].nil?
+        addressRegNumber = data["Adresa"]["SupisneCislo"] unless data["Adresa"].nil?
+        addressCity = data["Adresa"]["Mesto"] unless data["Adresa"].nil?
+        addressCode = data["Adresa"]["MestoKod"] unless data["Adresa"].nil?
+        addressPsc = data["Adresa"]["Psc"] unless data["Adresa"].nil?
+        addressIdent = data["Adresa"]["Identifikator"] unless data["Adresa"].nil?
 
       
       
